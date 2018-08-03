@@ -2,11 +2,16 @@ import os
 from os import path
 from collections import namedtuple
 from time import strftime
-
+from enum import Enum
 
 __all__ = ()
 
 Section = namedtuple('Section', ['line', 'fg', 'bg'])
+
+class Prompt_Position(Enum):
+    Left = 1
+    Right = 2
+    Bottom = 3
 
 $PL_PARTS = 10
 $PL_DEFAULT_PROMPT = 'short_cwd>rtns'
@@ -142,7 +147,7 @@ def who():
     return Section(' {user}@{hostname} ', 'WHITE', '#555')
 
 
-def prompt_builder(var, right=False):
+def prompt_builder(var, position = Prompt_Position.Left):
     if var == '!':  # in case the prompt format is a single ! it means empty
         return ''
 
@@ -171,7 +176,7 @@ def prompt_builder(var, right=False):
             last = (i == size-1)
             first = (i == 0)
 
-            if right:
+            if position == Prompt_Position.Right:
                 p.append('{%s}%s{BACKGROUND_%s}{%s}%s' % (sec.bg, $PL_RSEP, sec.bg, sec.fg, sec.line))
             else:
                 if first:
@@ -213,9 +218,9 @@ def pl_build_prompt():
         if varname not in __xonsh_env__:
             __xonsh_env__[varname] = __xonsh_env__[defname]
 
-    $PROMPT = prompt_builder($PL_PROMPT)
-    $BOTTOM_TOOLBAR = prompt_builder($PL_TOOLBAR)
-    $RIGHT_PROMPT = prompt_builder($PL_RPROMPT, True)
+    $PROMPT = prompt_builder($PL_PROMPT, Prompt_Position.Left)
+    $BOTTOM_TOOLBAR = prompt_builder($PL_TOOLBAR, Prompt_Position.Bottom)
+    $RIGHT_PROMPT = prompt_builder($PL_RPROMPT, Prompt_Position.Right)
     $TITLE = '{current_job:{} | }{cwd_base} | {user}@{hostname}'
     $MULTILINE_PROMPT = ''
 
