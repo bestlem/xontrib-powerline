@@ -94,13 +94,13 @@ def cwd():
 @register_sec
 def branch():
     if $PROMPT_FIELDS['curr_branch']():
-        return Section(' {curr_branch} ', '#333', $PROMPT_FIELDS['branch_bg_color']()[1+len('background_'):-1])
+        return Section(' {curr_branch} ', 'BLACK', $PROMPT_FIELDS['branch_bg_color']()[1+len('background_'):-1])
 
 
 @register_sec
 def virtualenv():
     if $PROMPT_FIELDS['env_name']():
-        return Section(' 🐍 {env_name} ', 'INTENSE_CYAN', 'BLUE')
+        return Section(' 🐍{env_name} ', 'WHITE', 'BLUE')
 
 
 @register_sec
@@ -178,6 +178,13 @@ def prompt_builder(var, position = Prompt_Position.Left):
 
             if position == Prompt_Position.Right:
                 p.append('{%s}%s{BACKGROUND_%s}{%s}%s' % (sec.bg, $PL_RSEP, sec.bg, sec.fg, sec.line))
+            elif position == Prompt_Position.Bottom:
+                p.append('{BACKGROUND_%s}' % sec.fg)
+                p.append('{%s}%s' % (sec.bg, sec.line))
+                if last:
+                    p.append('{WHITE}{BACKGROUND_%s}%s{NO_COLOR}' % (sec.bg, $PL_SEP))
+                else:
+                    p.append('{%s}{BACKGROUND_%s}%s' % ( sections[i+1].bg, sec.bg, $PL_SEP))
             else:
                 if first:
                     p.append('{BACKGROUND_%s}' % sec.bg)
