@@ -3,7 +3,7 @@ Xontrib Powerline
 
 Powerline for Xonsh shell.
 
-.. image:: https://github.com/santagada/xontrib-powerline/raw/master/screenshot.png
+.. image:: screenshot.png
 
 Install
 -------
@@ -44,7 +44,7 @@ the `xontrib tutorial`_
 Credits
 -------
 
-This package was created by Leonardo Santagada with Cookiecutter_ 
+This package was created by Leonardo Santagada with Cookiecutter_
 and the `laerus/cookiecutter-xontrib`_ project template.
 
 The font being used on the screenshot is the incredible `3270 font`_ with injected characters from `nerd fonts`_.
